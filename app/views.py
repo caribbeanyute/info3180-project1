@@ -5,10 +5,10 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
-from app import app, db, login_manager
+from app import app, db
 from flask import render_template, request, redirect, url_for, flash,session
 from flask_login import login_user, logout_user, current_user, login_required
-from app.forms import LoginForm
+from app.forms import ProfileForm
 from app.models import UserProfile
 from werkzeug.security import check_password_hash
 
@@ -29,9 +29,13 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
-@app.route('/profile')
+@app.route('/profile', methods=['POST', 'GET'])
 def profile():
-    """Render the website's profile page."""
+    userForm = ProfileForm()
+
+    if request.method == 'POST' :
+        if userForm.validate_on_submit():
+            pass
     return render_template('profile.html')
 
 @app.route('/profiles')
@@ -39,69 +43,12 @@ def profiles():
     """Render the website's profile page."""
     return render_template('profile.html')
 
-@app.route('/profiles/<id>')
-def profiles(id):
+@app.route('/profile/<id>')
+def specficProfiles(id):
     """Render the website's profile page."""
     return render_template('profile.html')
     
-    
-@app.route('/secure_page')
-@login_required
-def secure_page():
-    """Render a secure page on our website that only logged in users can access."""
-    return render_template('secure_page.html')
 
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if request.method == "POST" and form.validate_on_submit():
-        # change this to actually validate the entire form submission
-        # and not just one field
-        if form.username.data and form.password.data:
-            username = form.username.data
-            password = form.password.data
-            # Get the username and password values from the form.
-
-            # using your model, query database for a user based on the username
-            # and password submitted. Remember you need to compare the password hash.
-            # You will need to import the appropriate function to do so.
-            # Then store the result of that query to a `user` variable so it can be
-            # passed to the login_user() method below.
-            user = UserProfile.query.filter_by(username=username).first()
-            if user and check_password_hash(user.password,password):
-                remember_me = False
-                if 'remember_me' in request.form:
-                    remember_me = True
-
-            # get user id, load into session
-                login_user(user,remember = remember_me)
-                session['logged_in'] = True
-                flash('Logged in successfully.', 'success')
-                next_page = request.args.get('next')
-                return redirect(next_page or url_for('secure_page'))
-            else:
-                flash('Username or Password is incorrect.', 'danger')
-
-            # remember to flash a message to the user
-            # they should be redirected to a secure-page route instead
-    return render_template("login.html", form=form)
-
-@app.route("/logout")
-@login_required
-def logout():
-    # Logout the user and end the session
-    logout_user()
-    session['logged_in'] = False
-    flash('You have been logged out.', 'danger')
-    return redirect(url_for('home'))
-
-
-# user_loader callback. This callback is used to reload the user object from
-# the user ID stored in the session
-@login_manager.user_loader
-def load_user(id):
-    return UserProfile.query.get(int(id))
 
 ###
 # The functions below should be applicable to all Flask apps.
