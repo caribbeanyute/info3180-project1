@@ -17,7 +17,7 @@ class UserProfile(db.Model):
     email = db.Column(db.String(80))
     location = db.Column(db.String(80))
     biography = db.Column(db.String(255))
-    gender = db.Column(db.Enum('male', 'female', name='gender'))
+    gender = db.Column(db.Enum('Male', 'Female', name='gender'))
     created_date = db.Column(DateTime, default=datetime.datetime.utcnow)
     imagestr = db.Column(db.String(80))
     
@@ -38,4 +38,4 @@ class UserProfile(db.Model):
         self.imagestr  = filename
 
     def __repr__(self):
-        return '<User %r>' % (self.username)
+        return '<User %r>' % (self.first_name)

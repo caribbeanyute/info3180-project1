@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<link href="{{ url_for('static', filename='css/temp.css') }}" rel="stylesheet">
+
+<h2 >Profiles</h2>
+
+     {% for profile in user_profiles%}
+
+     <div cardContent>
+        <div class="expandable-card--profile-imag">
+          <img src="https://picsum.photos/170/150" alt="John" />
+        </div>
+
+        <div class="info">
+          <div class="text">
+            <div class="expandable-card--title">
+             {{profile.first_name+" "+profile.last_name}}
+            </div>
+            <div class="expandable-card--sub-title">
+              <i class="fa fa-user icon">O</i>
+              <p>{{profile.gender}}</p>
+            </div>
+            <div class="expandable-card--sub-title">
+              <i class="fa fa-user icon">O</i>
+              <p>{{profile.location}}</p>
+            </div>
+          </div>
+          <div class="buttons">
+            <a href="{{ ('/specificProfile/'+(profile.id)|string) }}" class="btn">View Profile</a>
+          </div>
+        </div>
+      </div>
+     
+     
+  {% endfor %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

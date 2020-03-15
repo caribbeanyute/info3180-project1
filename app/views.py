@@ -43,7 +43,7 @@ def profile():
             email = userForm.email.data
             biography = userForm.biography.data
             gender = userForm.gender.data
-            file = userForm.file.data
+            file = userForm.photo.data
             filename = secure_filename(file.filename)
             file.save(os.path.join(
             app.instance_path, app.config['UPLOAD_FOLDER'], filename))
@@ -56,11 +56,12 @@ def profile():
 @app.route('/profiles')
 def profiles():
     """Render the website's profile page."""
-    user_profiles = db.session.query(UserProfile).all()
-    return render_template('profile.html',user_profiles=user_profiles)
+    user_profiles = list(db.session.query(UserProfile).all())
+    print(user_profiles)
+    return render_template('profiles.html',user_profiles=user_profiles)
 
-@app.route('/specprofile/<id>')
-def specficProfiles(id):
+@app.route('/specificProfile/<id>')
+def specificProfile(id):
     """Render the website's profile page."""
     user = db.session.query(UserProfile).filter_by(id=int(id)).first()
     return render_template('profile.html',user=user)

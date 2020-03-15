@@ -9,7 +9,7 @@ class ProfileForm(FlaskForm):
     lastname = StringField('LName', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    gender = SelectField('Gender', choices = [  (status, status) for status in ["male","female"]], validators = [Required()])
+    gender = SelectField('Gender', choices = [  (status, status) for status in ["Male","Female"]], validators = [Required()])
     biography = TextAreaField('Message', validators=[DataRequired()])
     photo = FileField('photo', validators=[ FileRequired(),
         FileAllowed(images, 'Images only!')])
