@@ -16,18 +16,11 @@ class UserProfile(db.Model):
     last_name = db.Column(db.String(80))
     email = db.Column(db.String(80))
     location = db.Column(db.String(80))
+    biography = db.Column(db.String(255))
     gender = db.Column(db.Enum('male', 'female', name='gender'))
     created_date = db.Column(DateTime, default=datetime.datetime.utcnow)
+    imagestr = db.Column(db.String(80))
     
-
-    def is_authenticated(self):
-        return True
-
-    def is_active(self):
-        return True
-
-    def is_anonymous(self):
-        return False
 
     def get_id(self):
         try:
@@ -35,12 +28,14 @@ class UserProfile(db.Model):
         except NameError:
             return str(self.id)  # python 3 support
             
-    def __init__(self, first_name, last_name, email, location, gender):
+    def __init__(self,first_name,last_name,gender,email,location,biography,date,filename):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.location = location
         self.gender = gender
+        self.biography = biography
+        self.imagestr  = filename
 
     def __repr__(self):
         return '<User %r>' % (self.username)
