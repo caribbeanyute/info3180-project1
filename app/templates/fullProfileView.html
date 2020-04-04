@@ -6,18 +6,18 @@
         
             <div class="col">
 
-                <img src="{{ url_for('static', filename="uploads/"+user.imagestr) }}" class="responsive" />
+                <img src="{{ url_for('static', filename="uploads/"+user.imagestr) }}" class="mr-3 mt-3 rounded-circle" style="width:200px;height:200px;"/>
 
             </div>
 
             <div class="col">
                 <h4> {{ user.first_name }} {{user.last_name}}</h4>
                 <p>
-                    <p style="display:inline"><img src="{{ url_for('static',filename = 'css_images/new-email-outline.svg') }}" alt=""> {{ user.email }}</p>
+                    <p style="display:inline"><img src="{{ url_for('static',filename = 'images/location.svg') }}" alt=""> {{ user.email }}</p>
                     <p>
-                        <p style="display:inline"><img src="{{ url_for('static',filename = 'css_images/you-are-here.svg') }}" alt=""></p> {{ user.location }}</p>
+                        <p style="display:inline"><img src="{{ url_for('static',filename = 'images/location.svg') }}" alt=""></p> {{ user.location }}</p>
                     <p>
-                        <p style="display:inline"><img src="{{ url_for('static',filename = 'css_images/calendar.svg') }}" alt="">joined on {{ user.created_date.strftime('%Y-%m-%d') }}</p>
+                        <p style="display:inline"><img src="{{ url_for('static',filename = 'images/calendar.svg') }}" alt="">joined on {{ user.created_date.strftime('%Y-%m-%d') }}</p>
             </div>
         </div>
         <div style="justify-items: center;" class="row">

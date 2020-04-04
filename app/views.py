@@ -55,7 +55,7 @@ def profile():
             db.session.add(user)
             db.session.commit()
 
-    return render_template('profile.html',form=userForm)
+    return render_template('profileForm.html',form=userForm)
 
 @app.route('/profiles')
 def profiles():
@@ -71,7 +71,7 @@ def specificProfile(id):
     if user == None:
         return render_template('404.html'), 404
         
-    return render_template('profile.1.html',user=user)
+    return render_template('fullProfileView.html',user=user)
     
 
 
