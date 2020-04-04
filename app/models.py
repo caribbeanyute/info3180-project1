@@ -28,7 +28,7 @@ class UserProfile(db.Model):
         except NameError:
             return str(self.id)  # python 3 support
             
-    def __init__(self,first_name,last_name,gender,email,location,biography,date,filename):
+    def __init__(self,first_name,last_name,gender,email,location,biography,filename):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email

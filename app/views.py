@@ -11,7 +11,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from app.forms import ProfileForm
 from app.models import UserProfile
 from werkzeug.utils import secure_filename
-from werkzeug.security import check_password_hash
+import hashlib
 
 
 
@@ -25,7 +25,7 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/about/')
+@app.route('/about')
 def about():
     """Render the website's about page."""
     return render_template('about.html')
@@ -44,14 +44,18 @@ def profile():
             biography = userForm.biography.data
             gender = userForm.gender.data
             file = userForm.photo.data
-            filename = secure_filename(file.filename)
+            name, ext = os.path.splitext(secure_filename(file.filename))
+            print(ext)
+            filename = hashlib.sha256(file.read()).hexdigest() + ext
+            file.seek(0)
+            
             file.save(os.path.join(
             app.instance_path, app.config['UPLOAD_FOLDER'], filename))
             user = UserProfile(first_name,last_name,gender,email,location,biography,filename)
             db.session.add(user)
             db.session.commit()
 
-    return render_template('form.html',form=userForm)
+    return render_template('profile.html',form=userForm)
 
 @app.route('/profiles')
 def profiles():
@@ -64,7 +68,10 @@ def profiles():
 def specificProfile(id):
     """Render the website's profile page."""
     user = db.session.query(UserProfile).filter_by(id=int(id)).first()
-    return render_template('profile.html',user=user)
+    if user == None:
+        return render_template('404.html'), 404
+        
+    return render_template('profile.1.html',user=user)
     
 
 
