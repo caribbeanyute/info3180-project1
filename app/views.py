@@ -54,6 +54,8 @@ def profile():
             user = UserProfile(first_name,last_name,gender,email,location,biography,filename)
             db.session.add(user)
             db.session.commit()
+            render_template('home.html')
+            
 
     return render_template('profileForm.html',form=userForm)
 
